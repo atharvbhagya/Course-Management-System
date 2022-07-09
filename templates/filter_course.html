@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://www.iiti.ac.in/images/iitindore.ico" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+
+
+
+    <title>Filter Courses</title>
+</head>
+<body>
+    <!-- flash message div -->
+    <div id="addmsg">
+
+        {% with messages = get_flashed_messages() %}
+        {%if messages %}
+        <ul>
+            {%for message in messages%}
+            <li>{{message}}</li>
+            {%endfor%}
+        </ul>
+        {%endif%}
+        {%endwith%}
+    </div>
+ 
+  <!-- form to post input to server -->
+  
+    <form action="{{url_for('filter_course')}}" method="post">
+          <!-- department options -->
+    <p> <label for="dept">Filter by department: </label>
+    <select name="department_name" id="dept">
+        <option value="None">None</option> 
+      {%for row in rows_dep%}
+      <option value="{{row[0]}}">
+          {{row[0]}}
+      </option>
+       {%endfor%}
+    </select></p>
+
+   <!-- faculty options -->
+
+    <p> <label for="fac_ID">Filter by Faculty ID: </label>
+    <select name="faculty_ID" id="fac_ID">
+      <option value="None">None</option> 
+  
+    </select></p>
+  <!-- time range options -->
+       <p><label for="time_range">Choose a time range:</label>
+         <p>lower limit: <select name="st_year" id="st_year">
+            <option value="None">None</option> 
+             {%for row in rows_year %}
+           <option value="{{row[0]}}">{{row[0]}}</option>
+           {%endfor%}
+         </select>
+         <select name="st_sem" id="st_sem">
+             <option value="None">None</option>
+            <option value="FALL">FALL</option>
+            <option value="SPRING">SPRING</option>
+         </select>
+        </p>
+         <p>upper limit: <select name="en_year" id="en_year">
+            <option value="None">None</option> 
+             {%for row in rows_year %}
+           <option value="{{row[0]}}">{{row[0]}}</option>
+           {%endfor%}
+         </select>
+         <select name="en_sem" id="en_sem">
+             <option value="None">None</option>
+            <option value="FALL">FALL</option>
+            <option value="SPRING">SPRING</option>
+         </select>
+        </p>
+    
+    </p>
+
+     <input type="submit" value="show Filters ">
+
+    </form>
+    <form action="{{url_for('filter_course')}}" method="get">
+        <input type="submit" value="clear filters">
+    </form>
+    <button><a href="{{url_for('filter')}}">Go Back</a></button>
+    <!-- display table -->
+    <table>
+        <td>Department Name</td>
+        <td>Faculty ID</td>
+        <td>Faculty Name</td>
+        <td>Course ID</td>
+        <td>Year</td>
+        <td>Semester</td>
+        <td>No of Students</td>
+        <td>Start Time</td>
+        <td>End Time</td>
+        <td>Weekday</td>
+        <td>Room No</td>
+        
+        </thead>
+        <tbody>
+            {%for row1 in rows1%}
+            <tr>
+                {%for x in row1%}
+                <td>
+                    {{x}}
+                </td>
+                {%endfor%}
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+
+<!-- javascript for dynamic drop down -->
+    <script>
+        department_select = document.getElementById('dept');
+   faculty_select = document.getElementById('fac_ID');
+   
+     
+   department_select.onchange = function(){
+    department = department_select.value;
+    // alert(department);
+    fetch('/get_fac/' + department).then(function(response){
+     response.json().then(function(data) {
+      optionHTML = '<option value="None">' +"None"+ '</option>';
+      for (faculty of data.faculty_json) {
+       optionHTML += '<option value="' + faculty.faculty_ID +'">' + faculty.faculty_name + '</option>'
+      }
+      faculty_select.innerHTML = optionHTML;
+     });
+    });
+   }
+       </script>
+
+       <!-- js for message div -->
+       <script type="text/javascript">window.setTimeout("document.getElementById('addmsg').style.display='none';", 8000); </script>
+</body>
+</html>

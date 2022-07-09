@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://www.iiti.ac.in/images/iitindore.ico" type="image/x-icon">
+    <title>Table Menu</title>
+</head>
+<body>
+    <button><a href="{{url_for('index')}}">Go Back.</a></button>
+    <ul>
+        <li>
+            <a href="{{url_for('department_table')}}">Show department table</a>
+        </li>
+        <li>
+            <a href="{{url_for('course_table')}}">Show course table</a>
+        </li>
+       <li>
+        <a href="{{url_for('faculty_table')}}">Show faculty table</a>
+       </li>
+  <li>
+    <a href="{{url_for('faculty_with_course_table')}}">Show faculty with course table</a>
+  </li>
+      <li>
+        <a href="{{url_for('timetable_table')}}">Show timetable table</a>
+      </li>
+       
+    </ul>
+    
+   
+</body>
+</html>

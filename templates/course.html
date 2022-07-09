@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://www.iiti.ac.in/images/iitindore.ico" type="image/x-icon">
+    <title>Edit Course</title>
+</head>
+<body>
+    <h1>You will be making changes as {{name}}.</h1>
+
+    <div id="addmsg">
+
+        {% with messages = get_flashed_messages() %}
+        {%if messages %}
+        <ul>
+            {%for message in messages%}
+            <li>{{message}}</li>
+            {%endfor%}
+        </ul>
+        {%endif%}
+        {%endwith%}
+    </div>
+
+    <form action="{{url_for('edit_course',name=name)}}" method="POST">
+        <p><label for="id">Course ID:</label><input type="text" name="course_ID" id="id"></p>
+        <p><label for="name">Course Title:</label><input type="text" name="course_title" id="name"></p>
+        <p><label for="dept.">Department Name:</label><input type="text" name="department_name" id="dept."></p>
+        <input type="submit" value="Add course">
+    </form>
+
+
+    <table>
+        <thead><td>Course ID </td>
+        <td>Course title</td>
+        <td>Department Name </td></thead>
+        <tbody>
+          {%for row in rows%}
+            <tr>
+                {%for x in row%}
+                <td>{{x}}</td>
+                {%endfor%}
+                <td><button><a href="{{url_for('delete_course',name=name,name1=row[0])}}">DELETE</a></button></td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+
+    <script type="text/javascript">window.setTimeout("document.getElementById('addmsg').style.display='none';", 8000); </script>
+    <a href="{{url_for('edit',name=name)}}">Go Back</a>
+</body>
+</html>

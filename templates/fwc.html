@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://www.iiti.ac.in/images/iitindore.ico" type="image/x-icon">
+    <title>Edit Faculty with Course Table</title>
+</head>
+<body>
+
+    <h1>You will be making changes as {{name}}.</h1>
+    <div id="addmsg">
+
+        {% with messages = get_flashed_messages() %}
+        {%if messages %}
+        <ul>
+            {%for message in messages%}
+            <li>{{message}}</li>
+            {%endfor%}
+        </ul>
+        {%endif%}
+        {%endwith%}
+    </div>
+
+    <form action="{{url_for('edit_fwc',name=name)}}" method="post">
+        <p><label for="fid">Faculty ID:</label><input type="text" name="faculty_ID" id="fid"></p>
+        <p><label for="cid">Course ID:</label><input type="text" name="course_ID" id="cid"></p>
+        <p><label for="sem">Semester(FALL or SPRING):</label><select name="semester" id="sem">
+            <option value="FALL">FALL</option>
+            <option value="SPRING">SPRING</option>
+        </select></p>
+        <p><label for="year">Year:</label><input type="number" step="any" name="year" id="year"></p>
+        <p><label for="stud">No. of Redg. Students:</label><input type="number" name="No_students" id="stud"></p>
+        <input type="submit" value=" Add  course 'A' for faculty 'B' ">
+    </form>
+    
+
+    <table>
+        <thead>
+            <td>Faculty ID</td>
+            <td>Course ID</td>
+            <td>Year</td>
+            <td>Semester</td>
+            <td>No. of students</td>
+        
+        
+        </thead>
+        <tbody>
+          {%for row in rows%}
+            <tr>
+                {%for x in row%}
+                <td>{{x}}</td>
+                {%endfor%}
+                <td><button><a href="{{url_for('delete_fwc',name=name,name1=row[1],name2=row[0],name3=row[2],name4=row[3])}}">DELETE</a></button></td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+
+
+    <script type="text/javascript">window.setTimeout("document.getElementById('addmsg').style.display='none';", 8000); </script>
+    <a href="{{url_for('edit',name=name)}}">Go Back</a>
+</body>
+</html>

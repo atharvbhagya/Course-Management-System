@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://www.iiti.ac.in/images/iitindore.ico" type="image/x-icon">
+    <title>Admin Login</title>
+</head>
+
+<body>
+    <div id="addmsg">
+    {% with messages = get_flashed_messages() %}
+    {%if messages %}
+    <ul>
+        {%for message in messages%}
+        <li>{{message}}</li>
+        {%endfor%}
+    </ul>
+    {%endif%}
+    {%endwith%}
+</div>
+
+    <form action="/login" method="POST">
+        <p>
+            <label for="username">Enter Admin name: </label>
+            <input type="text" id='username' name="username" required>
+
+        </p>
+
+        <p>
+
+            <label for="name">Enter password: </label>
+            <input type="password" id='psswrd' name="password" required>
+        </p>
+
+        <p> <input type="submit" value="Log in"></p>
+    </form>
+    <button><a href="{{url_for('index')}}">Go Back.</a></button>
+    <script type="text/javascript">window.setTimeout("document.getElementById('addmsg').style.display='none';", 2200); </script>
+</body>
+
+</html>

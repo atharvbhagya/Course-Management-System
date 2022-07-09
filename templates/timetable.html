@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://www.iiti.ac.in/images/iitindore.ico" type="image/x-icon">
+    <title>Edit Timetable</title>
+</head>
+<body>
+    <h1>You will be making changes as {{name}}.</h1>
+    <div id="addmsg">
+
+        {% with messages = get_flashed_messages() %}
+        {%if messages %}
+        <ul>
+            {%for message in messages%}
+            <li>{{message}}</li>
+            {%endfor%}
+        </ul>
+        {%endif%}
+        {%endwith%}
+    </div>
+
+
+    <form action="{{url_for('edit_timetable', name=name)}}" method="post">
+      <p><label for="cid">Course ID: </label><input type="text" name="course_ID" id="cid"></p>
+      <p><label for="st">Start Time: </label><input type="time" name="start_time" id="st"></p>
+      <p><label for="et">End Time: </label><input type="time" name="end_time" id="et"></p>
+      <p><label for="wd">Weekday: </label><input type="text" name="weekday" id="wd"></p>
+      <p><label for="rn">Room No: </label><input type="text" name="room_no" id="rn"></p>
+      <p><label for="sem">Year: </label><input type="text" name="year" id="sem"></p>
+      <p><label for="year">Semester: </label><input type="text" name="semester" id="year"></p>
+
+      <input type="submit" value="Add timetable to a course">
+
+    </form>
+   
+    <table>
+        <thead>
+            <td>Course ID</td>
+            <td>Start Time</td>
+            <td>End Time</td>
+            <td>Year</td>
+            <td>Weekday</td>
+            <td>Room No</td>
+            <td>Semester</td>
+        
+        
+        </thead>
+        <tbody>
+          {%for row in rows%}
+            <tr>
+                {%for x in row%}
+                <td>{{x}}</td>
+                {%endfor%}
+                <td><button><a href="{{url_for('delete_timetable',name=name,name1=row[0],name2=row[3],name3=row[4],name4=row[6])}}">DELETE</a></button></td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+
+
+
+    <script type="text/javascript">window.setTimeout("document.getElementById('addmsg').style.display='none';", 8000); </script>
+    <a href="{{url_for('edit',name=name)}}">Go Back</a>
+</body>
+</html>

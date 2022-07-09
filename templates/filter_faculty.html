@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://www.iiti.ac.in/images/iitindore.ico" type="image/x-icon">
+   
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+   
+    <title>Filter Faculties</title>
+</head>
+<body>
+
+    <!-- flash message div -->
+
+    <div id="addmsg">
+
+        {% with messages = get_flashed_messages() %}
+        {%if messages %}
+        <ul>
+            {%for message in messages%}
+            <li>{{message}}</li>
+            {%endfor%}
+        </ul>
+        {%endif%}
+        {%endwith%}
+    </div>
+
+
+
+
+  <!-- form for posting inputs to server -->
+
+    <form action="{{url_for('filter_faculty')}}" method="post">
+     <p><label for="dept_">
+         Department Name
+     </label>
+        <select name="department_name" id="dept_">
+        <option value="None">None</option>
+          {%for row in row_dep%}
+          <option value="{{row[0]}}">
+              {{row[0]}}
+
+          </option>
+          {%endfor%}
+        </select>
+    </p>
+     <p><label for="cou">Course Name</label>
+        <select name="course_ID" id="cou">
+            <!-- <option value="None">None</option> -->
+
+        </select>
+    </p>
+
+   <input type="submit" method="show filters">
+
+    </form>
+
+    <!-- form for clearing filters -->
+    <form action="{{url_for('filter_faculty')}}" method="get">
+        <input type="submit" value="clear filters">
+    </form>
+
+  <button><a href="{{url_for('filter')}}">Go Back</a></button>
+
+     {% if table_ind==1 or table_ind==3 %}
+    <table>
+        <td>Department Name</td>
+        <td>Faculty ID</td>
+        <td>Faculty Name</td>
+        <td>Course ID</td>
+        <td>Corse Title</td>
+        
+        
+        </thead>
+        <tbody>
+            {%for row1 in rows1%}
+            <tr>
+                {%for x in row1%}
+                <td>
+                    {{x}}
+                </td>
+                {%endfor%}
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+  {%endif%}
+
+
+     {%if table_ind==2%}
+    <table>
+        <td>Department Name</td>
+        <td>Faculty ID</td>
+        <td>Faculty Name</td>
+        
+        
+        
+        </thead>
+        <tbody>
+            {%for row1 in rows1%}
+            <tr>
+                {%for x in row1%}
+                <td>
+                    {{x}}
+                </td>
+                {%endfor%}
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+  {%endif%}
+
+
+     
+<!--javascript for dynamic drop down -->
+<script>
+    department_select_=document.getElementById('dept_');
+    course_select=document.getElementById('cou');
+
+    
+
+    department_select_.onchange()=function(){
+        depart= department_select_.value;
+        fetch('getcou/' + depart).then(function(response){
+          response.json().then(function(data){
+
+             optionHTML='<option value="None">' +"None"+ '</option>';
+             for(c of data.course_list){
+                 optionHTML+= '<option value= " '+c.course_id+' ">' +c.course_id+ '</option>'
+
+             }
+             course_select.innerHTML=optionHTML;
+          });
+        });
+    }
+    </script>
+ <!-- js for flash message div -->
+<script type="text/javascript">window.setTimeout("document.getElementById('addmsg').style.display='none';", 8000); </script>
+</body>
+</html>
